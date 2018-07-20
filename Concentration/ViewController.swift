@@ -10,28 +10,28 @@ import UIKit
 
 class ViewController: UIViewController {
     
-    lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
+    private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
     
     var numberOfPairsOfCards: Int {
             // Read only
             return (cardButtons.count+1) / 2
     }
     
-    var flipCount: Int = 0 {
+    private(set) var flipCount: Int = 0 {
         didSet {
             numberOfFlips.text = "\(flipCount) Flips"
         }
     }
-    @IBOutlet weak var numberOfFlips: UILabel!
+    @IBOutlet private weak var numberOfFlips: UILabel!
     
     
-    @IBAction func didTapNewGame(_ sender: Any) {
+    @IBAction private func didTapNewGame(_ sender: Any) {
         Card.identifierFactory = 0
         game = Concentration(numberOfPairsOfCards: (cardButtons.count+1) / 2)
     }
     
     
-    @IBAction func didTapCard(_ sender: UIButton) {
+    @IBAction private func didTapCard(_ sender: UIButton) {
         flipCount += 1
         if let cardNumber = cardButtons.index(of: sender){
             game.chooseCard(at: cardNumber)
@@ -42,7 +42,7 @@ class ViewController: UIViewController {
         
     }
     
-    func updateViewFromModel() {
+    private func updateViewFromModel() {
         for index in cardButtons.indices {
             let button = cardButtons[index]
             let card = game.cards[index]
@@ -56,9 +56,9 @@ class ViewController: UIViewController {
         }
     }
     
-    var emojiChoices = ["👻", "🎃", "😎", "😍", "😇", "😡", "🤢", "👾"]
+    private var emojiChoices = ["👻", "🎃", "😎", "😍", "😇", "😡", "🤢", "👾"]
     
-    var emoji = [Int:String]()
+    private var emoji = [Int:String]()
     
     func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
@@ -72,7 +72,7 @@ class ViewController: UIViewController {
     }
     
     
-    @IBOutlet var cardButtons: [UIButton]!
+    @IBOutlet private var cardButtons: [UIButton]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
